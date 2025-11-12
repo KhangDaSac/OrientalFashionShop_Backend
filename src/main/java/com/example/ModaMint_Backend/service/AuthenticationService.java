@@ -254,7 +254,7 @@ public class AuthenticationService {
         JWSHeader jwsHeader = new JWSHeader(JWSAlgorithm.HS512);
 
         JWTClaimsSet jwtClaimsSet = new JWTClaimsSet.Builder()
-                .subject(user.getId()) // Use user.id instead of username for subject
+                .subject(user.getUserId()) // Use user.id instead of username for subject
                 .claim("type", type)
                 .claim("scope", buildScope(user)) // thêm scope
                 .claim("username", user.getUsername()) // Add username as a claim for backward compatibility

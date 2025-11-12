@@ -125,7 +125,7 @@ public class AmountPromotionService {
      */
     private boolean isValidForOrder(AmountPromotion promotion, BigDecimal orderTotal, java.time.LocalDateTime currentTime) {
         // Kiểm tra mã có đang hoạt động không
-        if (promotion.getIsActive() == null || !promotion.getIsActive()) {
+        if (promotion.getActive() == null || !promotion.getActive()) {
             return false;
         }
 
@@ -144,7 +144,7 @@ public class AmountPromotionService {
         }
 
         // Kiểm tra giá trị đơn hàng tối thiểu
-        if (promotion.getMinOrderValue() != null && orderTotal.compareTo(promotion.getMinOrderValue()) < 0) {
+        if (promotion.getMinOrderValue() != null && promotion.getMinOrderValue() < 0) {
             return false;
         }
 

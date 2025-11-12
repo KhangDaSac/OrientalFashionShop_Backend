@@ -1,16 +1,17 @@
 package com.example.ModaMint_Backend.dto.request.customer;
 
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
+import com.example.ModaMint_Backend.entity.Address;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
-@Data
+import java.util.List;
+
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
 @FieldDefaults(level = lombok.AccessLevel.PRIVATE)
 public class CustomerRequest {
-    @NotBlank(message = "Customer ID is required")
-    String customerId;
+    List<Address> addresses;
 }

@@ -19,6 +19,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Set;
 
 @Slf4j
@@ -68,7 +69,7 @@ public class    ApplicationInitConfig {
                         .lastName("System")
                         .dob(LocalDate.parse("1985-01-01"))
                         .gender(Gender.MALE)
-                        .roles(Set.of(adminRole))
+                        .roles(List.of(adminRole))
                         .active(true)
                         .build();
 
@@ -93,7 +94,7 @@ public class    ApplicationInitConfig {
                         .lastName("Member")
                         .dob(LocalDate.parse("1990-01-01"))
                         .gender(Gender.FEMALE)
-                        .roles(Set.of(staffRole))
+                        .roles(List.of(staffRole))
                         .active(true)
                         .build();
 
@@ -140,7 +141,7 @@ public class    ApplicationInitConfig {
                             .lastName(lastName)
                             .dob(LocalDate.parse(dob))
                             .gender(gender)
-                            .roles(Set.of(customerRole))
+                            .roles(List.of(customerRole))
                             .active(true)
                             .build();
 
@@ -150,7 +151,7 @@ public class    ApplicationInitConfig {
                     User savedUser = userRepository.save(customer);
                     
                     // Tạo customer record bằng native SQL để tránh detached entity issue
-                    jdbcTemplate.update("INSERT INTO customers (user_id) VALUES (?)", savedUser.getId());
+                    jdbcTemplate.update("INSERT INTO customers (user_id) VALUES (?)", savedUser.getUserId());
                     
                     log.info("Customer user created: {}", username);
                 } else {

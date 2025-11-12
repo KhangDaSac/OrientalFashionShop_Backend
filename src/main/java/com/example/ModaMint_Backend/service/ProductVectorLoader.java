@@ -41,9 +41,9 @@ public class ProductVectorLoader {
                             Thương hiệu: %s
                             Các biến thể: %s
                             """.formatted(
-                                p.getName(),
+                                p.getProductName(),
                                 p.getDescription(),
-                                p.getBrand().getName(),
+                                p.getBrand().getBrandName(),
                                 variantsText
                         ));
                     })

@@ -1,12 +1,8 @@
 package com.example.ModaMint_Backend.entity;
 
-import com.example.ModaMint_Backend.entity.Order;
-import com.example.ModaMint_Backend.entity.ProductVariant;
-import com.example.ModaMint_Backend.entity.compositeKey.OrderItemId;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
-import java.math.BigDecimal;
 
 @Entity
 @Table(name = "order_item")
@@ -17,7 +13,7 @@ import java.math.BigDecimal;
 @Builder
 @ToString
 @FieldDefaults(level = AccessLevel.PRIVATE)
-@IdClass(OrderItemId.class)
+@IdClass(OrderItem.OrderItemId.class)
 public class OrderItem {
     @Id
     @EqualsAndHashCode.Include
@@ -40,4 +36,17 @@ public class OrderItem {
     public Double getLineTotal() {
         return unitPrice * quantity;
     }
+
+    @Getter
+    @Setter
+    @EqualsAndHashCode
+    @NoArgsConstructor
+    @AllArgsConstructor
+    @Builder
+    @FieldDefaults(level = AccessLevel.PRIVATE)
+    public static class OrderItemId {
+        Order order;
+        ProductVariant productVariant;
+    }
+
 }

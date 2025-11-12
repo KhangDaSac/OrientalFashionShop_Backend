@@ -1,6 +1,5 @@
 package com.example.ModaMint_Backend.entity;
 
-import com.example.ModaMint_Backend.entity.compositeKey.CartItemId;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
@@ -14,7 +13,7 @@ import lombok.experimental.FieldDefaults;
 @Builder
 @ToString
 @FieldDefaults(level = AccessLevel.PRIVATE)
-@IdClass(CartItemId.class)
+@IdClass(CartItem.CartItemId.class)
 public class CartItem {
     @Id
     @EqualsAndHashCode.Include
@@ -29,4 +28,16 @@ public class CartItem {
     ProductVariant productVariant;
 
     Long quantity;
+
+    @Getter
+    @Setter
+    @EqualsAndHashCode
+    @NoArgsConstructor
+    @AllArgsConstructor
+    @Builder
+    @FieldDefaults(level = AccessLevel.PRIVATE)
+    public static class CartItemId {
+        Cart cart;
+        ProductVariant productVariant;
+    }
 }

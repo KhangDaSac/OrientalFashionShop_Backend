@@ -14,7 +14,7 @@ public class CartDto {
     Long id;
     String sessionId;
     List<CartItemDto> items;
-    Long subtotal;
+    Double subtotal;
     Long shipping;
-    Long total;
+    Double total;
 }

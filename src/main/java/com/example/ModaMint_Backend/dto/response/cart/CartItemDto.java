@@ -15,6 +15,6 @@ public class CartItemDto {
     String productName;
     String image;
     Long unitPrice;
-    Integer quantity;
-    Long totalPrice;
+    Long quantity;
+    Double totalPrice;
 }

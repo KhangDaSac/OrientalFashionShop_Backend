@@ -101,7 +101,7 @@ public class BrandService {
     public List<BrandResponse> searchBrandsByName(String name) {
         return brandRepository.findAll()
                 .stream()
-                .filter(brand -> brand.getName().toLowerCase().contains(name.toLowerCase()))
+                .filter(brand -> brand.getBrandName().toLowerCase().contains(name.toLowerCase()))
                 .map(brandMapper::toBrandResponse)
                 .toList();
     }

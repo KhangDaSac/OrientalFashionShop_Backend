@@ -27,7 +27,7 @@ public class CategoryService {
     // Create - Tạo danh mục mới
     public CategoryResponse createCategory(CategoryRequest request) {
         Category category = categoryMapper.toCategory(request);
-        category.setParentId(request.getParentId());
+        category.setParentCategory(Category.builder().categoryId(request.getParentId()).build());
         Category savedCategory = categoryRepository.save(category);
         return categoryMapper.toCategoryResponse(savedCategory);
     }
@@ -63,7 +63,7 @@ public class CategoryService {
         if (request.getParentId() != null && id.equals(request.getParentId())) {
             throw new AppException(ErrorCode.INVALID_INPUT);
         }
-        category.setParentId(request.getParentId());
+        category.setParentCategory(Category.builder().categoryId(request.getParentId()).build());
         Category updatedCategory = categoryRepository.save(category);
         return categoryMapper.toCategoryResponse(updatedCategory);
     }
@@ -73,7 +73,7 @@ public class CategoryService {
         Category category = categoryRepository.findById(id)
                 .orElseThrow(() -> new AppException(ErrorCode.CATEGORY_NOT_FOUND));
 
-        category.setIsActive(false);
+        category.setActive(false);
         categoryRepository.save(category);
     }
 
@@ -82,7 +82,7 @@ public class CategoryService {
         Category category = categoryRepository.findById(id)
                 .orElseThrow(() -> new AppException(ErrorCode.CATEGORY_NOT_FOUND));
 
-        category.setIsActive(true);
+        category.setActive(true);
         Category restoredCategory = categoryRepository.save(category);
         return categoryMapper.toCategoryResponse(restoredCategory);
     }
@@ -99,7 +99,7 @@ public class CategoryService {
     public List<CategoryResponse> getActiveCategories() {
         return categoryRepository.findAll()
                 .stream()
-                .filter(Category::getIsActive)
+                .filter(Category::getActive)
                 .map(categoryMapper::toCategoryResponse)
                 .toList();
     }
@@ -108,7 +108,7 @@ public class CategoryService {
     public List<CategoryResponse> searchCategoriesByName(String name) {
         return categoryRepository.findAll()
                 .stream()
-                .filter(category -> category.getName().toLowerCase().contains(name.toLowerCase()))
+                .filter(category -> category.getCategoryName().toLowerCase().contains(name.toLowerCase()))
                 .map(categoryMapper::toCategoryResponse)
                 .toList();
     }
@@ -122,7 +122,7 @@ public class CategoryService {
     public long getActiveCategoryCount() {
         return categoryRepository.findAll()
                 .stream()
-                .filter(Category::getIsActive)
+                .filter(Category::getActive)
                 .count();
     }
 

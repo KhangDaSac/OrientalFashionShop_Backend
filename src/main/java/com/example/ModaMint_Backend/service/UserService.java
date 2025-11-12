@@ -20,6 +20,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -35,7 +36,7 @@ public class UserService {
     CustomerRepository customerRepository;
 
     // Ảnh mặc định cố định
-    private static final String DEFAULT_IMAGE_URL = "https://res.cloudinary.com/dhjksobmf/image/upload/v1729402353/default-avatar_c2opdo.png";
+    static String DEFAULT_IMAGE_URL = "https://res.cloudinary.com/dhjksobmf/image/upload/v1729402353/default-avatar_c2opdo.png";
 
     public UserResponse createRequest(UserCreationRequest request) {
         if (userRepository.existsByUsername(request.getUsername())) {
@@ -50,10 +51,10 @@ public class UserService {
             user.setImage(DEFAULT_IMAGE_URL);
         }
 
-        Set<Role> roleEntities = new HashSet<>();
+        List<Role> roleEntities = new ArrayList<>();
 
         if (request.getRoles() == null || request.getRoles().isEmpty()) {
-            Role defaultRole = (Role) roleRepository.findByName(RoleName.CUSTOMER)
+            Role defaultRole = roleRepository.findByName(RoleName.CUSTOMER)
                     .orElseThrow(() -> new AppException(ErrorCode.ROLE_NOT_FOUND));
             roleEntities.add(defaultRole);
         } else {
@@ -64,7 +65,7 @@ public class UserService {
                 } catch (IllegalArgumentException e) {
                     throw new AppException(ErrorCode.ROLE_NOT_FOUND);
                 }
-                Role role = (Role) roleRepository.findByName(roleName)
+                Role role = roleRepository.findByName(roleName)
                         .orElseThrow(() -> new AppException(ErrorCode.ROLE_NOT_FOUND));
                 roleEntities.add(role);
             }

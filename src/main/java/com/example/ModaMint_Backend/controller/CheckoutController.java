@@ -21,31 +21,31 @@ public class CheckoutController {
 
     private final CheckoutService checkoutService;
 
-    @GetMapping("/promotions")
-    @PreAuthorize("hasRole('CUSTOMER') or hasRole('ADMIN')")
-    public ApiResponse<List<PromotionSummary>> getAvailablePromotions(
-            @RequestParam String customerId) {
-        log.info("Getting available promotions for customer: {}", customerId);
-        
-        return ApiResponse.<List<PromotionSummary>>builder()
-                .code(2000)
-                .message("Lấy danh sách mã giảm giá thành công")
-                .result(checkoutService.getAvailablePromotions(customerId))
-                .build();
-    }
-
-
-    @PostMapping
-    @PreAuthorize("hasRole('CUSTOMER') or hasRole('ADMIN')")
-    public ApiResponse<CheckoutResponse> checkout(@Valid @RequestBody CheckoutRequest request) {
-        log.info("Processing checkout for customer: {}", request.getCustomerId());
-        
-        CheckoutResponse response = checkoutService.checkout(request);
-        
-        return ApiResponse.<CheckoutResponse>builder()
-                .code(2000)
-                .message("Đặt hàng thành công!")
-                .result(response)
-                .build();
-    }
+//    @GetMapping("/promotions")
+//    @PreAuthorize("hasRole('CUSTOMER') or hasRole('ADMIN')")
+//    public ApiResponse<List<PromotionSummary>> getAvailablePromotions(
+//            @RequestParam String customerId) {
+//        log.info("Getting available promotions for customer: {}", customerId);
+//
+//        return ApiResponse.<List<PromotionSummary>>builder()
+//                .code(2000)
+//                .message("Lấy danh sách mã giảm giá thành công")
+//                .result(checkoutService.getAvailablePromotions(customerId))
+//                .build();
+//    }
+//
+//
+//    @PostMapping
+//    @PreAuthorize("hasRole('CUSTOMER') or hasRole('ADMIN')")
+//    public ApiResponse<CheckoutResponse> checkout(@Valid @RequestBody CheckoutRequest request) {
+//        log.info("Processing checkout for customer: {}", request.getCustomerId());
+//
+//        CheckoutResponse response = checkoutService.checkout(request);
+//
+//        return ApiResponse.<CheckoutResponse>builder()
+//                .code(2000)
+//                .message("Đặt hàng thành công!")
+//                .result(response)
+//                .build();
+//    }
 }

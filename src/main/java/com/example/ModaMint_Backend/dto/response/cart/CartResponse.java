@@ -16,5 +16,4 @@ public class CartResponse {
     Long subtotal;
     Long shipping;
     Long total;
-
 }
