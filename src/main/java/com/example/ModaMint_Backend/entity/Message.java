@@ -1,6 +1,5 @@
 package com.example.ModaMint_Backend.entity;
 
-import com.example.ModaMint_Backend.entity.Conversation;
 import com.example.ModaMint_Backend.enums.SenderType;
 import jakarta.persistence.*;
 import lombok.*;
@@ -9,13 +8,17 @@ import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "messages")
-@Getter @Setter @NoArgsConstructor @AllArgsConstructor @Builder
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+@ToString
 @FieldDefaults(level = AccessLevel.PRIVATE)
-
 public class Message {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Long id;
+    Long messageId;
 
     String content;
     LocalDateTime timestamp;

@@ -10,31 +10,42 @@ import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Set;
 
 @Entity
 @Table(name = "customers")
-@Getter @Setter @NoArgsConstructor @AllArgsConstructor @Builder
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+@ToString
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class Customer {
     @Id
-    String customerId;
+    @Column(name = "customer_id")
+    Long customerId;
 
     @OneToOne(cascade = CascadeType.ALL)
-    @MapsId
     @JoinColumn(name = "user_id")
     User user;
 
-    @OneToMany(mappedBy = "customer")
-    Set<Address> addresses;
+    @ElementCollection
+    @CollectionTable(
+            name = "customer_addresses",
+            joinColumns = @JoinColumn(name = "customer_id")
+    )
+    List<Address> addresses;
 
     @OneToOne(mappedBy = "customer")
     Cart cart;
 
     @OneToMany(mappedBy = "customer")
-    Set<Order> orders;
-
+    @ToString.Exclude
+    List<Order> orders;
 
     @OneToMany(mappedBy = "customer")
-    Set<Review> reviews;
+    @ToString.Exclude
+    List<Review> reviews;
 }

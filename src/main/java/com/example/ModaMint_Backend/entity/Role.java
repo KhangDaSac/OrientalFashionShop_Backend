@@ -1,21 +1,25 @@
 package com.example.ModaMint_Backend.entity;
 
-import com.example.ModaMint_Backend.entity.Permission;
-import com.example.ModaMint_Backend.entity.User;
 import com.example.ModaMint_Backend.enums.RoleName;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
-import java.util.Set;
+
+import java.util.List;
 
 @Entity
 @Table(name = "roles")
-@Getter @Setter @NoArgsConstructor @AllArgsConstructor @Builder
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+@ToString
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class Role {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Long id;
+    Long roleId;
 
     @Enumerated(EnumType.STRING)
     @Column(unique = true, nullable = false)
@@ -24,7 +28,8 @@ public class Role {
     String description;
 
     @ManyToMany(mappedBy = "roles")
-    Set<User> users;
+    @ToString.Exclude
+    List<User> users;
 
     @ManyToMany
     @JoinTable(
@@ -32,5 +37,6 @@ public class Role {
             joinColumns = @JoinColumn(name = "role_id"),
             inverseJoinColumns = @JoinColumn(name = "permission_id")
     )
-    Set<Permission> permissions;
+    @ToString.Exclude
+    List<Permission> permissions;
 }

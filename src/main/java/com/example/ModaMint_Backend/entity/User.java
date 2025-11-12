@@ -14,23 +14,23 @@ import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.util.StringUtils;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Set;
 
 @Entity
 @Table(name = "users")
-@Data
-@AllArgsConstructor
+@Getter
+@Setter
 @NoArgsConstructor
+@AllArgsConstructor
 @Builder
+@ToString
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class User {
-    private static final String DEFAULT_IMAGE_URL =
-            "https://res.cloudinary.com/dysjwopcc/image/upload/v1760844380/" +
-                    "Clarification_4___Anime_Gallery___Tokyo_Otaku_Mode_TOM_Shop__Figures_Merch_From_Japan_zjhr4t.jpg";
-
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
-    String id;
+    @Column(name = "user_id")
+    String userId;
 
     @Size(min = 3, message = "Username must be at least 3 characters")
     String username;
@@ -40,23 +40,17 @@ public class User {
     @Size(min = 8, message = "Password must be at least 8 characters")
     String password;
     String phone;
+    @Column(name = "first_name")
     String firstName;
+    @Column(name = "last_name")
     String lastName;
     String image;
     LocalDate dob;
     
     @Enumerated(EnumType.STRING)
-    @Column(name = "gender")
     Gender gender;
 
-    @Builder.Default
-    boolean active = true;
-
-    @CreationTimestamp
-    LocalDateTime createAt;
-    
-    @UpdateTimestamp
-    LocalDateTime updateAt;
+    Boolean active;
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
@@ -64,18 +58,8 @@ public class User {
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id")
     )
-    Set<Role> roles;
+    List<Role> roles;
 
     @OneToOne(mappedBy = "user")
     Customer customer;
-
-    @OneToMany(mappedBy = "user") 
-    Set<Conversation> conversations;
-
-    @PrePersist
-    public void prePersist() {
-        if (!StringUtils.hasText(this.image)) {
-            this.image = DEFAULT_IMAGE_URL;
-        }
-    }
 }

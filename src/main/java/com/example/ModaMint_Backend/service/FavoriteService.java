@@ -1,9 +1,7 @@
 package com.example.ModaMint_Backend.service;
 
 import com.example.ModaMint_Backend.dto.response.favorite.FavoriteDto;
-import com.example.ModaMint_Backend.entity.Favorite;
 import com.example.ModaMint_Backend.repository.FavoriteRepository;
-import com.example.ModaMint_Backend.service.ProductService;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;

@@ -1,55 +1,49 @@
 package com.example.ModaMint_Backend.entity;
 
-import com.example.ModaMint_Backend.entity.Customer;
-import com.example.ModaMint_Backend.entity.OrderItem;
-import com.example.ModaMint_Backend.entity.Product;
-import com.example.ModaMint_Backend.converter.StringSetConverter;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
-import org.hibernate.annotations.CreationTimestamp;
+
 import java.time.LocalDateTime;
-import java.util.Set;
+import java.util.List;
 
 @Entity
 @Table(name = "reviews")
-@Getter @Setter @NoArgsConstructor @AllArgsConstructor @Builder
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+@ToString
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class Review {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Long id;
-
-    @Column(name = "product_id")
-    Long productId;
-
-    @Column(name = "customer_id")
-    String customerId;
-
-    @Column(name = "order_item_id")
-    Long orderItemId;
+    @Column(name = "review_id")
+    Long reviewId;
 
     Integer rating;
 
     String comment;
 
-    @Convert(converter = StringSetConverter.class)
-    @Column(name = "images", columnDefinition = "TEXT")
-    Set<String> images;
+    @ElementCollection
+    @CollectionTable(
+            name = "review_images",
+            joinColumns = @JoinColumn(name = "review_id")
+    )
+    List<String> images;
 
-    @CreationTimestamp
-    @Column(name = "create_at")
-    LocalDateTime createAt;
+    LocalDateTime timestamp;
 
     @ManyToOne
-    @JoinColumn(name = "product_id", insertable = false, updatable = false)
+    @JoinColumn(name = "product_id")
     Product product;
 
     @ManyToOne
-    @JoinColumn(name = "customer_id", insertable = false, updatable = false)
+    @JoinColumn(name = "customer_id")
     Customer customer;
 
     @ManyToOne
-    @JoinColumn(name = "order_item_id", insertable = false, updatable = false)
+    @JoinColumn(name = "order_item_id")
     OrderItem orderItem;
 }

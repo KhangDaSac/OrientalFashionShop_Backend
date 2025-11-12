@@ -1,33 +1,32 @@
 package com.example.ModaMint_Backend.entity;
 
-import com.example.ModaMint_Backend.entity.Cart;
-import com.example.ModaMint_Backend.entity.ProductVariant;
+import com.example.ModaMint_Backend.entity.compositeKey.CartItemId;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 @Entity
-@Table(name = "cart_item")
-@Getter @Setter @NoArgsConstructor @AllArgsConstructor @Builder
+@Table(name = "cart_items")
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+@ToString
 @FieldDefaults(level = AccessLevel.PRIVATE)
+@IdClass(CartItemId.class)
 public class CartItem {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Long id;
-
-    @Column(name = "cart_id")
-    Long cartId;
-
-    @Column(name = "variant_id")
-    Long variantId;
-
-    Integer quantity;
-
+    @EqualsAndHashCode.Include
     @ManyToOne
-    @JoinColumn(name = "cart_id", insertable = false, updatable = false)
+    @JoinColumn(name = "cart_id")
     Cart cart;
 
+    @Id
+    @EqualsAndHashCode.Include
     @ManyToOne
-    @JoinColumn(name = "variant_id", insertable = false, updatable = false)
+    @JoinColumn(name = "product_variant_id")
     ProductVariant productVariant;
+
+    Long quantity;
 }

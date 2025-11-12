@@ -4,24 +4,35 @@ import com.example.ModaMint_Backend.entity.Product;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
+
+import java.util.List;
 import java.util.Set;
 
 @Entity
 @Table(name = "brands")
-@Getter @Setter @NoArgsConstructor @AllArgsConstructor @Builder
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+@ToString
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class Brand {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Long id;
+    @Column(name = "brand_id")
+    Long brandId;
 
-    String name;
+    @Column(name = "brand_name")
+    String brandName;
+
     String description;
-    @Column(name = "logo_url")
-    String logoUrl;
 
-    Boolean active = true;
+    String logo;
+
+    Boolean active;
 
     @OneToMany(mappedBy = "brand")
-    Set<Product> products;
+    @ToString.Exclude
+    List<Product> products;
 }

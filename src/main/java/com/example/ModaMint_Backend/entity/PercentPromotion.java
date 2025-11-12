@@ -6,19 +6,21 @@ import jakarta.persistence.PrimaryKeyJoinColumn;
 import jakarta.persistence.Table;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
+import lombok.experimental.SuperBuilder;
 
 @Entity
-@Table(name = "percent_promotion")
+@Table(name = "percent_promotions")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@SuperBuilder
+@ToString(callSuper = true)
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class PercentPromotion extends Promotion {
-
     @Column(name = "percent")
-    double percent;
+    Double percent;
 
     @Column(name = "max_discount")
-    double maxDiscount;
+    Double maxDiscount;
 }

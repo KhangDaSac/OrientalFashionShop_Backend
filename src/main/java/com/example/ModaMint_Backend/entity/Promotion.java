@@ -3,9 +3,8 @@ package com.example.ModaMint_Backend.entity;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
-import org.hibernate.annotations.CreationTimestamp;
+import lombok.experimental.SuperBuilder;
 
-import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Entity
@@ -14,37 +13,28 @@ import java.time.LocalDateTime;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@SuperBuilder
+@ToString
 @FieldDefaults(level = AccessLevel.PROTECTED)
 public abstract class Promotion {
-
     @Id
     @Column(name = "promotion_id")
     Long promotionId;
 
-    @Column(name = "name", nullable = false)
-    String name;
+    @Column(name = "promotion_name", nullable = false)
+    String promotionName;
 
-    @Column(name = "code", unique = true, nullable = false)
+    @Column(unique = true, nullable = false)
     String code;
 
     @Column(name = "min_order_value")
-    BigDecimal minOrderValue;
+    Double minOrderValue;
 
-    @Column(name = "effective")
     LocalDateTime effective;
 
-    @Column(name = "expiration")
     LocalDateTime expiration;
 
-    @Column(name = "quantity")
-    Integer quantity;
+    Long quantity;
 
-    @Column(name = "is_active")
-    Boolean isActive = true;
-
-    @CreationTimestamp
-    @Column(name = "create_at", updatable = false)
-    LocalDateTime createAt;
-
-
+    Boolean active;
 }
